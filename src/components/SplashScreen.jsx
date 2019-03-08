@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 
-import Loader from './Loader'
-
 import useTeam from '../hooks/useTeam'
+
+import RegisterTeam from './RegisterTeam'
 
 function SplashScreen() {
   const [team] = useTeam()
-  console.log('%cteam', 'background: green; color: white;', team)
 
-  return <Loader />
+  if (!team || !team.players || team.players.length < 9) {
+    return <RegisterTeam />
+  }
+
+  return <div>App...</div>
 }
 
 export default SplashScreen

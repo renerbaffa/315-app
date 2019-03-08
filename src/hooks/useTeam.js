@@ -1,11 +1,7 @@
 import { useState } from 'react'
 
 function init() {
-  const team = localStorage.getItem('team')
-  return {
-    isLoading: false,
-    team: null,
-  }
+  return JSON.parse(window.localStorage.getItem('team'))
 }
 
 function useTeam() {
