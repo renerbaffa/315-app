@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-
-import useTeam from '../hooks/useTeam'
+import React, { useContext } from 'react'
 
 import RegisterTeam from './RegisterTeam'
+import TeamContext from '../contexts/TeamContext'
 
 function SplashScreen() {
-  const [team] = useTeam()
+  const { team } = useContext(TeamContext)
 
   if (!team || !team.players || team.players.length < 9) {
     return <RegisterTeam />

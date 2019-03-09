@@ -2,10 +2,10 @@ import React from 'react'
 import { render } from 'react-testing-library'
 import cases from 'jest-in-case'
 
-import SplashScreen from './SplashScreen'
+import App from './index'
 
 function setup() {
-  return render(<SplashScreen />)
+  return render(<App />)
 }
 
 beforeEach(() => {
@@ -33,5 +33,5 @@ it('should render app when team info is on localStorage and it has at least 9 pl
   )
   const { queryByText, getByText } = setup()
   expect(queryByText(/registrar time/i)).not.toBeInTheDocument()
-  expect(getByText(/ap.../i)).toBeInTheDocument()
+  expect(getByText(/app.../i)).toBeInTheDocument()
 })

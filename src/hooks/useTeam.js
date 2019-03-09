@@ -1,11 +1,15 @@
-import { useState } from 'react'
+import { useReducer } from 'react'
+
+import TeamReducer from '../reducers/TeamReducer'
 
 function init() {
   return JSON.parse(window.localStorage.getItem('team'))
 }
 
 function useTeam() {
-  return useState(init)
+  const [team, dispatch] = useReducer(TeamReducer, init())
+
+  return { team }
 }
 
 export default useTeam
