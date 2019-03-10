@@ -1,10 +1,10 @@
 import React from 'react'
 import { fireEvent, render } from 'react-testing-library'
 
-import App from './index'
+import Register from './register'
 
 function setup() {
-  return render(<App />)
+  return render(<Register />)
 }
 
 beforeEach(() => {
@@ -42,7 +42,7 @@ it('should show players error when there is no player', () => {
   expect(getByText(/Mínimo: 9 jogadores/i)).toBeInTheDocument()
 })
 
-it.only('should show error with the minimum number of players (9)', () => {
+it('should show error with the minimum number of players (9)', () => {
   const { getByText, getByLabelText, queryByText } = setup()
 
   fireEvent.click(getByText(/salvar/i))

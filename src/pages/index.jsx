@@ -1,15 +1,10 @@
 import React from 'react'
 
-import SplashScreen from '../components/SplashScreen'
-
 import TeamProvider from '../providers/TeamProvider'
+import Main from '../screens/Main'
 
 function App() {
-  return (
-    <TeamProvider>
-      <SplashScreen />
-    </TeamProvider>
-  )
+  return <TeamProvider><Main /></TeamProvider>
 }
 
 export default App

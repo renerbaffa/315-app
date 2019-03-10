@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { css } from 'emotion'
 
 import TeamContext from '../contexts/TeamContext'
 
@@ -8,10 +9,12 @@ function TeamProvider(props) {
   const teamContext = useTeam()
 
   return (
-    <TeamContext.Provider
-      {...props}
-      value={teamContext}
-    />
+    <div className={css`font-family: system-ui;`}>
+      <TeamContext.Provider
+        {...props}
+        value={teamContext}
+      />
+    </div>
   )
 }
 

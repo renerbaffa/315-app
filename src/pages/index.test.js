@@ -2,20 +2,27 @@ import React from 'react'
 import { render } from 'react-testing-library'
 import cases from 'jest-in-case'
 
-import App from './index'
+import Main from './index'
+
+import { navigate } from 'gatsby'
+
+jest.mock('gatsby', () => ({
+  navigate: jest.fn()
+}))
 
 function setup() {
-  return render(<App />)
+  return render(<Main />)
 }
 
 beforeEach(() => {
   window.localStorage.clear()
+  navigate.mockReset()
 })
 
-cases('it should render Register form when', ({ team = null }) => {
+cases('it should redirect to register when', ({ team = null }) => {
   window.localStorage.setItem('team', JSON.stringify(team))
-  const { getByText } = setup()
-  expect(getByText(/registrar time/i)).toBeInTheDocument()
+  setup()
+  expect(navigate).toHaveBeenCalled()
 }, [
   { name: 'there is no team on localStorage' },
   { name: 'there is no player on team', team: {} },
