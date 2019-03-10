@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from 'emotion'
+import { css, cx } from 'emotion'
 
 const input = css`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 3px;
@@ -12,10 +12,10 @@ const input = css`
   font-size: 18px;
 `
 
-function Input(props) {
+function Input({ className, ...props }) {
   return (
     <input
-      className={input}
+      className={cx(input, className)}
       {...props}
     />
   )
