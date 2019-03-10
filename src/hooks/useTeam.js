@@ -2,10 +2,16 @@ import { useReducer } from 'react'
 
 import TeamReducer from '../reducers/TeamReducer'
 
-import { SET_TEAM_NAME } from '../constants/teamReducer'
+import { SET_TEAM_NAME, SET_NEW_PLAYER, EDIT_PLAYER } from '../constants/teamReducer'
+import { setTeamOnLocalStorage } from '../utils/localStorage'
 
 function init() {
-  return JSON.parse(window.localStorage.getItem('team'))
+  let team = JSON.parse(window.localStorage.getItem('team'))
+  if (!team) {
+    team = { name: '', players: [] }
+    setTeamOnLocalStorage(team)
+  }
+  return team
 }
 
 function useTeam() {
@@ -15,7 +21,15 @@ function useTeam() {
     dispatch({ type: SET_TEAM_NAME, payload: name })
   }
 
-  return { team, setTeamName }
+  function setNewPlayer() {
+    dispatch({ type: SET_NEW_PLAYER })
+  }
+
+  function editPlayerById(id, props) {
+    dispatch({ type: EDIT_PLAYER, payload: { id, props } })
+  }
+
+  return { team, setTeamName, setNewPlayer, editPlayerById }
 }
 
 export default useTeam
