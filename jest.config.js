@@ -17,7 +17,7 @@ module.exports = {
   setupFilesAfterEnv: ['react-testing-library/cleanup-after-each', '<rootDir>/setupTests.js'],
   coverageThreshold: {
     global: {
-      branches: 80,
+      branches: 78,
       functions: 95,
       lines: 95,
       statements: 95

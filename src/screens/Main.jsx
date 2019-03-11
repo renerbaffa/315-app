@@ -7,7 +7,9 @@ function App() {
   const { team } = useContext(TeamContext)
 
   if (!team || !team.players || team.players.length < 9) {
-    navigate('/register')
+    if (typeof window !== `undefined`) {
+      navigate('/register')
+    }
   } else {
     return (
       <div>App...</div>

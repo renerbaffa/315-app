@@ -11,6 +11,7 @@
     "serve": "gatsby serve",
     "test": "jest",
     "test:coverage": "jest --coverage",
+    "codecov": "codecov",
     "cy:open": "cypress open"
   },
   "dependencies": {
@@ -23,6 +24,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.3.1",
     "babel-preset-gatsby": "^0.1.8",
+    "codecov": "^3.2.0",
     "cypress": "^3.1.5",
     "cypress-testing-library": "^2.3.6",
     "eslint": "^5.15.1",
