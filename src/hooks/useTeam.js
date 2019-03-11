@@ -3,12 +3,12 @@ import { useReducer } from 'react'
 import TeamReducer from '../reducers/TeamReducer'
 
 import { SET_TEAM_NAME, SET_NEW_PLAYER, EDIT_PLAYER } from '../constants/teamReducer'
-import { setTeamOnLocalStorage } from '../utils/localStorage'
+import { setTeamOnLocalStorage, getTeamFromLocalStorage } from '../utils/localStorage'
 
 function init() {
   let team = { players: [] }
   if (typeof window !== `undefined`) {
-    team = JSON.parse(window.localStorage.getItem('team'))
+    team = getTeamFromLocalStorage()
   }
 
   if (!team) {
