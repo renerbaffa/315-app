@@ -8,6 +8,9 @@
   Gatsby's hello-world starter
 </h1>
 
+[![Build Status](https://travis-ci.org/renerbaffa/315-app.svg?branch=master)](https://travis-ci.org/renerbaffa/315-app)
+[![codecov](https://codecov.io/gh/renerbaffa/315-app/branch/master/graph/badge.svg)](https://codecov.io/gh/renerbaffa/315-app)
+
 Kick off your project with this hello-world boilerplate. This starter ships with the main Gatsby configuration files you might need to get up and running blazing fast with the blazing fast app generator for React.
 
 _Have another more specific idea? You may want to check out our vibrant collection of [official and community-created starters](https://www.gatsbyjs.org/docs/gatsby-starters/)._
