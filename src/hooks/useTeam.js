@@ -6,7 +6,11 @@ import { SET_TEAM_NAME, SET_NEW_PLAYER, EDIT_PLAYER } from '../constants/teamRed
 import { setTeamOnLocalStorage } from '../utils/localStorage'
 
 function init() {
-  let team = JSON.parse(window.localStorage.getItem('team'))
+  let team = { players: [] }
+  if (typeof window !== `undefined`) {
+    team = JSON.parse(window.localStorage.getItem('team'))
+  }
+
   if (!team) {
     team = { name: '', players: [] }
     setTeamOnLocalStorage(team)
