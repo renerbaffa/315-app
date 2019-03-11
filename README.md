@@ -10,6 +10,7 @@
 
 [![Build Status](https://travis-ci.org/renerbaffa/315-app.svg?branch=master)](https://travis-ci.org/renerbaffa/315-app)
 [![codecov](https://codecov.io/gh/renerbaffa/315-app/branch/master/graph/badge.svg)](https://codecov.io/gh/renerbaffa/315-app)
+[![Maintainability](https://api.codeclimate.com/v1/badges/75f8bf4e86a0941b69b7/maintainability)](https://codeclimate.com/github/renerbaffa/315-app/maintainability)
 
 Kick off your project with this hello-world boilerplate. This starter ships with the main Gatsby configuration files you might need to get up and running blazing fast with the blazing fast app generator for React.
 
