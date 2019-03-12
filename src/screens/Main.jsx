@@ -3,6 +3,8 @@ import { navigate } from 'gatsby'
 
 import TeamContext from '../contexts/TeamContext'
 
+import Game from '../components/Game'
+
 function App() {
   const { team } = useContext(TeamContext)
 
@@ -12,7 +14,7 @@ function App() {
     }
   } else {
     return (
-      <div>App...</div>
+      <Game />
     )
   }
 
