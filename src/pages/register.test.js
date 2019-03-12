@@ -4,41 +4,12 @@ import cases from 'jest-in-case'
 
 import Register from './register'
 
+import { getTeamFromLocalStorage, setTeamOnLocalStorage } from '../utils/tests/team'
 import { navigate } from 'gatsby'
 
 jest.mock('gatsby', () => ({
   navigate: jest.fn()
 }))
-
-const playerModel = {
-  id: 1,
-  name: 'player 1',
-  nickname: 'nickname',
-  age: '35',
-  number: '1'
-}
-
-function getTeamFromLocalStorage() {
-  return JSON.parse(window.localStorage.getItem('team'))
-}
-
-function setTeamOnLocalStorage({ name, players, numberOfPlayers }) {
-  window.localStorage.setItem(
-    'team',
-    JSON.stringify({
-      name,
-      players: players || setPlayers(numberOfPlayers),
-    })
-  )
-}
-
-function setPlayers(numberOfPlayers = 0) {
-  const players = []
-  for (let count = 1; count <= numberOfPlayers; count++) {
-    players.push({ ...playerModel, id: count, name: `player ${ count }` })
-  }
-  return players
-}
 
 function setup() {
   return render(<Register />)
