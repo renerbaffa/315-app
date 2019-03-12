@@ -4,6 +4,12 @@ import cases from 'jest-in-case'
 
 import Register from './register'
 
+import { navigate } from 'gatsby'
+
+jest.mock('gatsby', () => ({
+  navigate: jest.fn()
+}))
+
 const playerModel = {
   id: 1,
   name: 'player 1',
@@ -16,12 +22,31 @@ function getTeamFromLocalStorage() {
   return JSON.parse(window.localStorage.getItem('team'))
 }
 
+function setTeamOnLocalStorage({ name, players, numberOfPlayers }) {
+  window.localStorage.setItem(
+    'team',
+    JSON.stringify({
+      name,
+      players: players || setPlayers(numberOfPlayers),
+    })
+  )
+}
+
+function setPlayers(numberOfPlayers = 0) {
+  const players = []
+  for (let count = 1; count <= numberOfPlayers; count++) {
+    players.push({ ...playerModel, id: count, name: `player ${ count }` })
+  }
+  return players
+}
+
 function setup() {
   return render(<Register />)
 }
 
 beforeEach(() => {
   window.localStorage.clear()
+  navigate.mockReset()
 })
 
 it.todo('should render the Register form correctly (snapshot)')
@@ -68,18 +93,7 @@ it('should create the first user when clicking on `+` and there is no players', 
 })
 
 it('should create a new user when clicking on `+` and there are more players', () => {
-  window.localStorage.setItem(
-    'team',
-    JSON.stringify({
-      name: 'My team',
-      players: [
-        { ...playerModel, id: 1 },
-        { ...playerModel, id: 2 },
-        { ...playerModel, id: 3 },
-        { ...playerModel, id: 4 },
-      ],
-    })
-  )
+  setTeamOnLocalStorage({ name: 'My team', numberOfPlayers: 4 })
   const { getByText, queryAllByTestId } = setup()
   fireEvent.click(getByText(/\+/i))
   expect(queryAllByTestId('player')).toHaveLength(5)
@@ -87,18 +101,7 @@ it('should create a new user when clicking on `+` and there are more players', (
 })
 
 cases(`should be able edit a player's:`, ({ target, value, regex }) => {
-  window.localStorage.setItem(
-    'team',
-    JSON.stringify({
-      name: 'My team',
-      players: [
-        { ...playerModel, id: 1, name: 'player 1' },
-        { ...playerModel, id: 2, name: 'player 2' },
-        { ...playerModel, id: 3, name: 'player 3' },
-        { ...playerModel, id: 4, name: 'player 4' },
-      ],
-    })
-  )
+  setTeamOnLocalStorage({ name: 'My team', numberOfPlayers: 4 })
   const { queryAllByLabelText } = setup()
   const item = queryAllByLabelText(regex).find(
     item => item.id === `player-${ target }-3`
@@ -120,4 +123,11 @@ it('should show error with the minimum number of players (9)', () => {
 
   fireEvent.click(getByText(/salvar/i))
   expect(getByText(/Mínimo: 9 jogadores/i)).toBeInTheDocument()
+})
+
+it('should redirect user to App when the form submitted is fine', () => {
+  setTeamOnLocalStorage({ name: 'My team', numberOfPlayers: 9 })
+  const { getByText } = setup()
+  fireEvent.click(getByText(/salvar/i))
+  expect(navigate).toHaveBeenCalledTimes(1)
 })
