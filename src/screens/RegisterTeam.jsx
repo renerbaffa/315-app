@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { css } from 'emotion'
+import { navigate } from 'gatsby'
 
 import TeamContext from '../contexts/TeamContext'
 
@@ -31,6 +32,12 @@ function RegisterTeam() {
     }
 
     setError(newError)
+
+    if (Object.keys(newError).length === 0) {
+      if (typeof window !== `undefined`) {
+        navigate('/')
+      }
+    }
   }
 
   return (
