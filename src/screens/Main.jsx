@@ -9,6 +9,7 @@ function App() {
   const { team } = useContext(TeamContext)
 
   if (!team || !team.players || team.players.length < 9) {
+    /* istanbul ignore next */
     if (typeof window !== `undefined`) {
       navigate('/register')
     }

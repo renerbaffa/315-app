@@ -3,6 +3,7 @@ import { css } from 'emotion'
 
 import GameContext from '../contexts/GameContext'
 import TeamContext from '../contexts/TeamContext'
+import sortPlayersByTShirtNumber from '../utils/players'
 
 import field from '../../static/field.png'
 import RoundButton from './RoundButton'
@@ -36,18 +37,6 @@ const benchStyle = css`
     margin: 0 5px;
   }
 `
-
-function sortPlayersByTShirtNumber(a, b) {
-  const numA = Number.parseInt(a.number)
-  const numB = Number.parseInt(b.number)
-  if (numA < numB) {
-    return -1
-  }
-  if (numA > numB) {
-    return 1
-  }
-  return 0
-}
 
 function Game() {
   const { team } = useContext(TeamContext)

@@ -13,7 +13,7 @@ export function getPlayers(numberOfPlayers = 0) {
       ...playerModel,
       id: count,
       name: `player ${ count }`,
-      number: count,
+      number: numberOfPlayers - count + 1,
     })
   }
   return players

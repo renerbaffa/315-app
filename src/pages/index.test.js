@@ -28,10 +28,10 @@ const positions = [
 function setupBench() {
   setTeamOnLocalStorage({ name: 'team', numberOfPlayers: 14 })
   setGmaeOnLocalStorage({
-    attackingMidFielder1: 3,
-    defensiveMidFielder1: 5,
-    leftBack: 10,
-    goalKeeper: 2,
+    attackingMidFielder1: 12, // shirt 3
+    defensiveMidFielder1: 5, // shirt 10
+    leftBack: 10, // shirt 5
+    goalKeeper: 13, // shirt 2
   })
 }
 
@@ -84,7 +84,7 @@ it('should render the t-shirt number of all players in the bench', () => {
   )
 })
 
-it('should render the players in the bench in dec order', () => {
+it.only('should render the players in the bench in dec order', () => {
   setupBench()
   // using regex to match the exact text to assert the order
   const sortedBenchPlayers = [
