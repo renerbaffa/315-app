@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-testing-library'
+import { render, getByText, queryByText } from 'react-testing-library'
 import cases from 'jest-in-case'
 
 import Main from './index'
@@ -7,6 +7,7 @@ import Main from './index'
 import { getPlayers } from '../utils/tests/player'
 import { setTeamOnLocalStorage } from '../utils/tests/team'
 import { navigate } from 'gatsby'
+import { setGmaeOnLocalStorage } from '../utils/tests/game'
 
 jest.mock('gatsby', () => ({
   navigate: jest.fn()
@@ -58,3 +59,27 @@ it('should render all the 9 positions in the field', () => {
   const { getByTestId } = setup()
   positions.forEach(position => expect(getByTestId(position)).toBeInTheDocument())
 })
+
+it('should render the t-shirt number of all players in the bench', () => {
+  setTeamOnLocalStorage({ name: 'team', numberOfPlayers: 12 })
+  setGmaeOnLocalStorage({
+    attackingMidFielder1: 1,
+    defensiveMidFielder1: 3,
+    leftBack: 10,
+    goalKeeper: 2,
+  })
+  const { getByTestId } = setup()
+  const container = getByTestId('bench')
+  const expectedBenchPlayers = [4, 5, 6, 7, 8, 9, 11, 12]
+  const expectedFieldPlayers = [1, 2, 3, 10]
+  expectedBenchPlayers.forEach(number =>
+    expect(getByText(container, number.toString(), { exact: true })).toBeInTheDocument()
+  )
+  expectedFieldPlayers.forEach(number =>
+    expect(queryByText(container, number.toString(), { exact: true })).not.toBeInTheDocument()
+  )
+})
+
+it.todo('should render the players in the bench in dec order')
+
+it.todo('should render the players in the correct position inside the field')

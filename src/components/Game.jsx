@@ -1,27 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { css } from 'emotion'
 
-import field from '../../static/field.png'
+import GameContext from '../contexts/GameContext'
+import TeamContext from '../contexts/TeamContext'
 
+import field from '../../static/field.png'
 import RoundButton from './RoundButton'
 
-import {
-  striker,
-  attackingMidFielder1,
-  attackingMidFielder2,
-  defensiveMidFielder1,
-  defensiveMidFielder2,
-  leftBack,
-  defense,
-  rightBack,
-  goalKeeper
-} from '../styles/playerPositions'
+import allPositionsStyles from '../styles/playerPositions'
 
 const containerStyle = css`
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: #0c8011;
+  background-color: #717171;
 `
 
 const fieldStyle = css`
@@ -32,46 +24,55 @@ const fieldStyle = css`
   height: 90vh;
 `
 
+const benchStyle = css`
+  position: absolute;
+  width: 100%;
+  height: 10vh;
+  bottom: 0;
+  display: flex;
+  overflow-x: auto;
+  align-items: center;
+  .benchPlayer {
+    margin: 0 5px;
+  }
+`
+
 function Game() {
+  const { team } = useContext(TeamContext)
+  const { game } = useContext(GameContext)
+
+  const playingPlayers = Object.keys(game).reduce((acc, position) => {
+    const playerId = game[position]
+    if (playerId) {
+      const player = team.players.find(player => player.id === playerId)
+      acc.push(player)
+    }
+    return acc
+  }, [])
+
+  const benchPlayers = team.players.filter(
+    player => playingPlayers.findIndex(
+      playingPlayer => playingPlayer && playingPlayer.id === player.id
+    ) < 0
+  )
+
   return (
     <div className={containerStyle}>
-      <div className={fieldStyle}>
-        <RoundButton
-          className={striker}
-          data-testid="striker"
-        />
-        <RoundButton
-          className={attackingMidFielder1}
-          data-testid="attackingMidFielder1"
-        />
-        <RoundButton
-          className={attackingMidFielder2}
-          data-testid="attackingMidFielder2"
-        />
-        <RoundButton
-          className={defensiveMidFielder1}
-          data-testid="defensiveMidFielder1"
-        />
-        <RoundButton
-          className={defensiveMidFielder2}
-          data-testid="defensiveMidFielder2"
-        />
-        <RoundButton
-          className={leftBack}
-          data-testid="leftBack"
-        />
-        <RoundButton
-          className={defense}
-          data-testid="defense"
-        />
-        <RoundButton
-          className={rightBack}
-          data-testid="rightBack"
-        />
-        <RoundButton
-          className={goalKeeper}
-          data-testid="goalKeeper"
-        />
+      <div className={fieldStyle} data-testid="field">
+        {Object.keys(game).map(position =>
+          <RoundButton
+            key={position}
+            className={allPositionsStyles[position]}
+            data-testid={position}
+          />
+        )}
+      </div>
+      <div className={benchStyle} data-testid="bench">
+        {benchPlayers.map(benchPlayer => (
+          <div key={benchPlayer.id}>
+            <RoundButton className="benchPlayer" text={benchPlayer.number} />
+          </div>
+        ))}
       </div>
     </div>
   )

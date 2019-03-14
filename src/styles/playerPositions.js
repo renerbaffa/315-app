@@ -53,3 +53,15 @@ export const striker = css`
   left: calc(50% - 25px);
   top: 30px;
 `
+
+export default {
+  goalKeeper,
+  defense,
+  leftBack,
+  rightBack,
+  defensiveMidFielder1,
+  defensiveMidFielder2,
+  attackingMidFielder1,
+  attackingMidFielder2,
+  striker,
+}
