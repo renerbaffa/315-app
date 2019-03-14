@@ -17,10 +17,7 @@ const DEFAULT_GAME = {
 
 function init() {
   let game
-
-  if (typeof window !== `undefined`) {
-    game = getGameFromLocalStorage()
-  }
+  game = getGameFromLocalStorage()
 
   if (!game) {
     game = DEFAULT_GAME
