@@ -25,6 +25,16 @@ const positions = [
   'goalKeeper'
 ]
 
+function setupBench() {
+  setTeamOnLocalStorage({ name: 'team', numberOfPlayers: 14 })
+  setGmaeOnLocalStorage({
+    attackingMidFielder1: 3,
+    defensiveMidFielder1: 5,
+    leftBack: 10,
+    goalKeeper: 2,
+  })
+}
+
 function setup() {
   return render(<Main />)
 }
@@ -61,17 +71,11 @@ it('should render all the 9 positions in the field', () => {
 })
 
 it('should render the t-shirt number of all players in the bench', () => {
-  setTeamOnLocalStorage({ name: 'team', numberOfPlayers: 12 })
-  setGmaeOnLocalStorage({
-    attackingMidFielder1: 1,
-    defensiveMidFielder1: 3,
-    leftBack: 10,
-    goalKeeper: 2,
-  })
+  setupBench()
   const { getByTestId } = setup()
   const container = getByTestId('bench')
-  const expectedBenchPlayers = [4, 5, 6, 7, 8, 9, 11, 12]
-  const expectedFieldPlayers = [1, 2, 3, 10]
+  const expectedBenchPlayers = [1, 4, 6, 7, 8, 9, 11, 12, 13, 14]
+  const expectedFieldPlayers = [2, 3, 5, 10]
   expectedBenchPlayers.forEach(number =>
     expect(getByText(container, number.toString(), { exact: true })).toBeInTheDocument()
   )
@@ -80,6 +84,17 @@ it('should render the t-shirt number of all players in the bench', () => {
   )
 })
 
-it.todo('should render the players in the bench in dec order')
+it('should render the players in the bench in dec order', () => {
+  setupBench()
+  // using regex to match the exact text to assert the order
+  const sortedBenchPlayers = [
+    /^1$/, /^4$/, /^6$/, /^7$/, /^8$/, /^9$/, /^11$/, /^12$/, /^13$/, /^14$/,
+  ]
+  const { getByTestId } = setup()
+  const container = getByTestId('bench')
+  Object.values(container.children).forEach((benchPlayer, index) => {
+    expect(benchPlayer).toHaveTextContent(sortedBenchPlayers[index])
+  })
+})
 
 it.todo('should render the players in the correct position inside the field')

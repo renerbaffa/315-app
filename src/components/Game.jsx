@@ -37,6 +37,18 @@ const benchStyle = css`
   }
 `
 
+function sortPlayersByTShirtNumber(a, b) {
+  const numA = Number.parseInt(a.number)
+  const numB = Number.parseInt(b.number)
+  if (numA < numB) {
+    return -1
+  }
+  if (numA > numB) {
+    return 1
+  }
+  return 0
+}
+
 function Game() {
   const { team } = useContext(TeamContext)
   const { game } = useContext(GameContext)
@@ -68,7 +80,7 @@ function Game() {
         )}
       </div>
       <div className={benchStyle} data-testid="bench">
-        {benchPlayers.map(benchPlayer => (
+        {benchPlayers.sort(sortPlayersByTShirtNumber).map(benchPlayer => (
           <div key={benchPlayer.id}>
             <RoundButton className="benchPlayer" text={benchPlayer.number} />
           </div>
