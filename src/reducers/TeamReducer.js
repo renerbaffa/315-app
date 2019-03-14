@@ -9,7 +9,7 @@ const emptyPlayer = {
   age: '',
 }
 
-export default function TeamReducer(team, action = {}) {
+export default function TeamReducer(team, action) {
   switch (action.type) {
   case SET_TEAM_NAME:
     const name = action.payload

@@ -7,9 +7,7 @@ import { setTeamOnLocalStorage, getTeamFromLocalStorage } from '../utils/localSt
 
 function init() {
   let team = { players: [] }
-  if (typeof window !== `undefined`) {
-    team = getTeamFromLocalStorage()
-  }
+  team = getTeamFromLocalStorage()
 
   if (!team) {
     team = { name: '', players: [] }

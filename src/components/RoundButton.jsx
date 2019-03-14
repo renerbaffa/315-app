@@ -19,12 +19,13 @@ const defaultContentStyle = css`
   margin-left: 2px;
 `
 
-function RoundButton({ className, ...props }) {
-  return <button {...props} className={cx(circleStyle, className)} />
-}
-
-RoundButton.defaultProps = {
-  children: <div className={defaultContentStyle}>+</div>,
+function RoundButton({
+  text = '+',
+  children = <div className={defaultContentStyle}>{text}</div>,
+  className,
+  ...props
+}) {
+  return <button {...props} className={cx(circleStyle, className)} children={children} />
 }
 
 export default RoundButton

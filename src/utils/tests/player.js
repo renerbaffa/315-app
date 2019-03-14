@@ -9,7 +9,12 @@ export const playerModel = {
 export function getPlayers(numberOfPlayers = 0) {
   const players = []
   for (let count = 1; count <= numberOfPlayers; count++) {
-    players.push({ ...playerModel, id: count, name: `player ${ count }` })
+    players.push({
+      ...playerModel,
+      id: count,
+      name: `player ${ count }`,
+      number: count,
+    })
   }
   return players
 }
