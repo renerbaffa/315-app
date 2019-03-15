@@ -1,5 +1,10 @@
 import React from 'react'
-import { render, getByText, queryByText } from 'react-testing-library'
+import {
+  render,
+  getByText,
+  queryByText,
+  getByTestId as originalGetByTestid
+} from 'react-testing-library'
 import cases from 'jest-in-case'
 
 import Main from './index'
@@ -84,7 +89,7 @@ it('should render the t-shirt number of all players in the bench', () => {
   )
 })
 
-it.only('should render the players in the bench in dec order', () => {
+it('should render the players in the bench in asc order', () => {
   setupBench()
   // using regex to match the exact text to assert the order
   const sortedBenchPlayers = [
@@ -97,4 +102,18 @@ it.only('should render the players in the bench in dec order', () => {
   })
 })
 
-it.todo('should render the players in the correct position inside the field')
+it('should render the players number in its correct position and `+` for empty positions', () => {
+  setupBench()
+  const { getByTestId } = setup()
+  const container = getByTestId('field')
+  expect(originalGetByTestid(container, /attackingMidFielder1/i)).toHaveTextContent(3)
+  expect(originalGetByTestid(container, /defensiveMidFielder1/i)).toHaveTextContent(10)
+  expect(originalGetByTestid(container, /leftBack/i)).toHaveTextContent(5)
+  expect(originalGetByTestid(container, /goalKeeper/i)).toHaveTextContent(2)
+
+  expect(originalGetByTestid(container, /striker/i)).toHaveTextContent('+')
+  expect(originalGetByTestid(container, /attackingMidFielder2/i)).toHaveTextContent('+')
+  expect(originalGetByTestid(container, /defensiveMidFielder2/i)).toHaveTextContent('+')
+  expect(originalGetByTestid(container, /defense/i)).toHaveTextContent('+')
+  expect(originalGetByTestid(container, /rightBack/i)).toHaveTextContent('+')
+})

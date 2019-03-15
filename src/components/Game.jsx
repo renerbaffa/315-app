@@ -60,13 +60,19 @@ function Game() {
   return (
     <div className={containerStyle}>
       <div className={fieldStyle} data-testid="field">
-        {Object.keys(game).map(position =>
-          <RoundButton
-            key={position}
-            className={allPositionsStyles[position]}
-            data-testid={position}
-          />
-        )}
+        {Object.keys(game).map(position => {
+          const playerOnPosition = playingPlayers.find(
+            playerOnField => playerOnField.id === game[position]
+          )
+          return (
+            <RoundButton
+              key={position}
+              className={allPositionsStyles[position]}
+              data-testid={position}
+              text={playerOnPosition && playerOnPosition.number}
+            />
+          )
+        })}
       </div>
       <div className={benchStyle} data-testid="bench">
         {benchPlayers.sort(sortPlayersByTShirtNumber).map(benchPlayer => (
