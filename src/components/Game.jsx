@@ -3,6 +3,7 @@ import { css } from 'emotion'
 
 import GameContext from '../contexts/GameContext'
 import TeamContext from '../contexts/TeamContext'
+import sortPlayersByTShirtNumber from '../utils/players'
 
 import field from '../../static/field.png'
 import RoundButton from './RoundButton'
@@ -37,18 +38,6 @@ const benchStyle = css`
   }
 `
 
-function sortPlayersByTShirtNumber(a, b) {
-  const numA = Number.parseInt(a.number)
-  const numB = Number.parseInt(b.number)
-  if (numA < numB) {
-    return -1
-  }
-  if (numA > numB) {
-    return 1
-  }
-  return 0
-}
-
 function Game() {
   const { team } = useContext(TeamContext)
   const { game } = useContext(GameContext)
@@ -71,13 +60,19 @@ function Game() {
   return (
     <div className={containerStyle}>
       <div className={fieldStyle} data-testid="field">
-        {Object.keys(game).map(position =>
-          <RoundButton
-            key={position}
-            className={allPositionsStyles[position]}
-            data-testid={position}
-          />
-        )}
+        {Object.keys(game).map(position => {
+          const playerOnPosition = playingPlayers.find(
+            playerOnField => playerOnField.id === game[position]
+          )
+          return (
+            <RoundButton
+              key={position}
+              className={allPositionsStyles[position]}
+              data-testid={position}
+              text={playerOnPosition && playerOnPosition.number}
+            />
+          )
+        })}
       </div>
       <div className={benchStyle} data-testid="bench">
         {benchPlayers.sort(sortPlayersByTShirtNumber).map(benchPlayer => (
