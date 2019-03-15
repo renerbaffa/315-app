@@ -38,14 +38,27 @@ const benchStyle = css`
   }
 `
 
+const totalAgeStyle = css`
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  color: white;
+  font-size: 60px;
+  -webkit-text-stroke: 2px #444444;
+  font-weight: bold;
+`
+
 function Game() {
   const { team } = useContext(TeamContext)
   const { game } = useContext(GameContext)
+
+  let totalAge = 0
 
   const playingPlayers = Object.keys(game).reduce((acc, position) => {
     const playerId = game[position]
     if (playerId) {
       const player = team.players.find(player => player.id === playerId)
+      totalAge += Number.parseInt(player.age)
       acc.push(player)
     }
     return acc
@@ -73,6 +86,7 @@ function Game() {
             />
           )
         })}
+        <div className={totalAgeStyle} data-testid="age">{totalAge}</div>
       </div>
       <div className={benchStyle} data-testid="bench">
         {benchPlayers.sort(sortPlayersByTShirtNumber).map(benchPlayer => (
