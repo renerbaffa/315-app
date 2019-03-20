@@ -3,7 +3,13 @@ import { css } from 'emotion'
 
 import GameContext from '../contexts/GameContext'
 import TeamContext from '../contexts/TeamContext'
-import sortPlayersByTShirtNumber from '../utils/players'
+import SubstitutionContext from '../contexts/SubstitutionContext'
+import {
+  sortPlayersByTShirtNumber,
+  getPlayingPlayers,
+  getBenchPlayers,
+  getPlayingPlayersTotalAge
+} from '../utils/players'
 
 import field from '../../static/field.png'
 import RoundButton from './RoundButton'
@@ -51,24 +57,15 @@ const totalAgeStyle = css`
 function Game() {
   const { team } = useContext(TeamContext)
   const { game } = useContext(GameContext)
+  const { toggleDialog } = useContext(SubstitutionContext)
 
-  let totalAge = 0
+  function handlePositionClick(position) {
+    toggleDialog(true)
+  }
 
-  const playingPlayers = Object.keys(game).reduce((acc, position) => {
-    const playerId = game[position]
-    if (playerId) {
-      const player = team.players.find(player => player.id === playerId)
-      totalAge += Number.parseInt(player.age)
-      acc.push(player)
-    }
-    return acc
-  }, [])
-
-  const benchPlayers = team.players.filter(
-    player => playingPlayers.findIndex(
-      playingPlayer => playingPlayer && playingPlayer.id === player.id
-    ) < 0
-  )
+  const playingPlayers = getPlayingPlayers({ game, team })
+  const benchPlayers = getBenchPlayers({ game, team })
+  const totalAge = getPlayingPlayersTotalAge({ game, team })
 
   return (
     <div className={containerStyle}>
@@ -83,6 +80,7 @@ function Game() {
               className={allPositionsStyles[position]}
               data-testid={position}
               text={playerOnPosition && playerOnPosition.number}
+              onClick={() => handlePositionClick(position)}
             />
           )
         })}
