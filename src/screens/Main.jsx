@@ -5,6 +5,8 @@ import TeamContext from '../contexts/TeamContext'
 
 import Game from '../components/Game'
 
+import BenchPlayerPicker from '../components/BenchPlayerPicker'
+
 function App() {
   const { team } = useContext(TeamContext)
 
@@ -15,7 +17,10 @@ function App() {
     }
   } else {
     return (
-      <Game />
+      <>
+        <Game />
+        <BenchPlayerPicker />
+      </>
     )
   }
 

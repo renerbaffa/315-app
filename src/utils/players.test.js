@@ -1,6 +1,6 @@
 import cases from 'jest-in-case'
 
-import sortPlayersByTShirtNumber from './players'
+import { sortPlayersByTShirtNumber } from './players'
 
 const p1 = {
   id: 1,

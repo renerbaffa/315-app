@@ -14,6 +14,7 @@ export function getPlayers(numberOfPlayers = 0) {
       id: count,
       name: `player ${ count }`,
       number: numberOfPlayers - count + 1,
+      nickname: `nickname ${ count }`,
     })
   }
   return players

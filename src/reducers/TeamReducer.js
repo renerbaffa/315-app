@@ -13,7 +13,7 @@ export default function TeamReducer(team, action) {
   switch (action.type) {
   case SET_TEAM_NAME:
     const name = action.payload
-    // TODO: test if we still need the validation
+    // @TODO: test if we still need the validation
     const localTeam = getTeamFromLocalStorage() || {}
     const newTeam = { ...localTeam, name }
     setTeamOnLocalStorage(newTeam)
