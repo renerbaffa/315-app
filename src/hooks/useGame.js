@@ -1,6 +1,7 @@
 import { useReducer } from 'react'
 
 import GameReducer from '../reducers/GameReducer'
+import { SET_PLAYER_IN_POSITION } from '../constants/gameReducer'
 import { getGameFromLocalStorage, setGameOnLocalStorage } from '../utils/localStorage'
 
 const DEFAULT_GAME = {
@@ -30,7 +31,11 @@ function init() {
 function useGame() {
   const [game, dispatch] = useReducer(GameReducer, init())
 
-  return { game }
+  function setPlayerInPosition(position, playerId) {
+    dispatch({ type: SET_PLAYER_IN_POSITION, payload: { position, playerId } })
+  }
+
+  return { game, setPlayerInPosition }
 }
 
 export default useGame

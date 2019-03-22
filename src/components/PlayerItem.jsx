@@ -18,9 +18,18 @@ const playerItemStyle = css`
   }
 `
 
-function PlayerItem({ nickname, number, age, onClick }) {
+export const selectedStyle = css`
+  background-color: green;
+  color: white;
+`
+
+function PlayerItem({ id, nickname, number, age, onClick, isSelected }) {
+  const classNames = [playerItemStyle]
+  if (isSelected) {
+    classNames.push(selectedStyle)
+  }
   return (
-    <div className={playerItemStyle} onClick={onClick}>
+    <div className={classNames.join(' ')} onClick={onClick} data-testid={id}>
       <div className="first">{nickname}</div>
       <div className="second">{`#${ number }`}</div>
       <div className="third">{`${ age } anos`}</div>

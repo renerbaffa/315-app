@@ -57,10 +57,10 @@ const totalAgeStyle = css`
 function Game() {
   const { team } = useContext(TeamContext)
   const { game } = useContext(GameContext)
-  const { toggleDialog } = useContext(SubstitutionContext)
+  const { setState } = useContext(SubstitutionContext)
 
   function handlePositionClick(position) {
-    toggleDialog(true)
+    setState({ open: true, positionToSubstitute: position })
   }
 
   const playingPlayers = getPlayingPlayers({ game, team })

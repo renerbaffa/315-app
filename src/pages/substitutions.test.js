@@ -1,39 +1,22 @@
 import React from 'react'
 import {
+  cleanup,
   render,
   getByText,
-  queryByText, // @TODO: to remove
+  queryByText,
   getByTestId as originalGetByTestid, // @TODO: to remove
   fireEvent
 } from 'react-testing-library'
-import cases from 'jest-in-case'
 
 import Main from './index'
+import { selectedStyle } from '../components/PlayerItem'
 
-import { getPlayers } from '../utils/tests/player'
 import { setTeamOnLocalStorage } from '../utils/tests/team'
-import { navigate } from 'gatsby'
-import { setGmaeOnLocalStorage } from '../utils/tests/game'
+import { getGameFromLocalStorage, setGmaeOnLocalStorage } from '../utils/tests/game'
 
-jest.mock('gatsby', () => ({
-  navigate: jest.fn()
-}))
-
-const positions = [
-  'striker',
-  'attackingMidFielder1',
-  'attackingMidFielder2',
-  'defensiveMidFielder1',
-  'defensiveMidFielder2',
-  'leftBack',
-  'defense',
-  'rightBack',
-  'goalKeeper'
-]
-
-function setup(shouldSetupBench = false) {
-  if (shouldSetupBench) {
-    setTeamOnLocalStorage({ name: 'team', numberOfPlayers: 14 })
+function setup(shoudSetupPlayersOnField = false) {
+  setTeamOnLocalStorage({ name: 'team', numberOfPlayers: 14 })
+  if (shoudSetupPlayersOnField) {
     setGmaeOnLocalStorage({
       attackingMidFielder1: 12, // shirt 3
       defensiveMidFielder1: 5, // shirt 10
@@ -43,6 +26,11 @@ function setup(shouldSetupBench = false) {
   }
   return render(<Main />)
 }
+
+beforeEach(() => {
+  window.localStorage.clear()
+  cleanup()
+})
 
 it('should not render the player modal by default', () => {
   const { queryByRole } = setup()
@@ -74,16 +62,50 @@ it('should close the modal when user clicks on `Cancel` button', () => {
   expect(queryByRole('modal')).not.toBeInTheDocument()
 })
 
-it.todo('should display in red the current player to be substituted')
-it.todo('should display current player if the position is empty')
+it('should highlight (as green) selected player to enter', () => {
+  const { getByTestId, getByRole } = setup()
+  fireEvent.click(getByTestId('defense'))
+  const modal = getByRole('modal')
+  fireEvent.click(getByText(modal, 'nickname 13'))
+  const player = getByTestId('13')
+  expect(player).toHaveClass(selectedStyle)
+})
 
-it.todo('should highlight (as green) selected player to enter')
-it.todo('should sum up the age of selected player to enter')
+it('should sum up the age of selected player to enter', () => {
+  const { getByTestId, getByRole, debug } = setup()
+  fireEvent.click(getByTestId('defense'))
+  const modal = getByRole('modal')
+  fireEvent.click(getByText(modal, 'nickname 13'))
+  expect(getByText(modal, /\+ 35/i)).toBeInTheDocument()
+  expect(getByText(modal, /= 35/i)).toBeInTheDocument()
+})
 
-it.todo('should not decrease the total age position is empty')
-it.todo('should decrease the of player to get out when according to selected position')
+it('should not decrease the total age position is empty', () => {
+  const { getByTestId, getByRole } = setup(true)
+  fireEvent.click(getByTestId('defense'))
+  const modal = getByRole('modal')
+  fireEvent.click(getByText(modal, 'nickname 8'))
+  expect(getByText(modal, '140')).toBeInTheDocument()
+  expect(queryByText(modal, '=')).not.toBeInTheDocument()
+})
 
-it.todo('should be possible to save changes') // validate the localStorage
+it('should decrease the age of player to get out according to selected position', () => {
+  const { getByTestId, getByRole } = setup(true)
+  fireEvent.click(getByTestId('goalKeeper'))
+  const modal = getByRole('modal')
+  expect(getByText(modal, /- 35/i)).toBeInTheDocument()
+  expect(getByText(modal, /= 105/i)).toBeInTheDocument()
+})
+
+it('should be possible to save changes', () => {
+  const { getByTestId, getByRole, queryByRole } = setup(true)
+  fireEvent.click(getByTestId('defense'))
+  const modal = getByRole('modal')
+  fireEvent.click(getByText(modal, 'nickname 8'))
+  fireEvent.click(getByText(modal, 'Salvar'))
+  expect(queryByRole('modal')).not.toBeInTheDocument()
+  expect(getByText(getByTestId('defense'), /7/i)).toBeInTheDocument()
+  expect(getGameFromLocalStorage().defense).toBe(8)
+})
+
 it.todo('should reflect the changes into the position and total age')
-
-it.todo('REMOVE ALL COMMENTS')
