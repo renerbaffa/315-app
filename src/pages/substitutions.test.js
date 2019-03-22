@@ -107,5 +107,3 @@ it('should be possible to save changes', () => {
   expect(getByText(getByTestId('defense'), /7/i)).toBeInTheDocument()
   expect(getGameFromLocalStorage().defense).toBe(8)
 })
-
-it.todo('should reflect the changes into the position and total age')
