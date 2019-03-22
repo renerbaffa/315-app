@@ -117,3 +117,9 @@ it('should render the players number in its correct position and `+` for empty p
   expect(originalGetByTestid(container, /defense/i)).toHaveTextContent('+')
   expect(originalGetByTestid(container, /rightBack/i)).toHaveTextContent('+')
 })
+
+it('should render total amount of ages for all palyers in field correctly', () => {
+  setupBench()
+  const { getByTestId } = setup()
+  expect(getByTestId('age')).toHaveTextContent('140')
+})
