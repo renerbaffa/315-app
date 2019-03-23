@@ -1,8 +1,6 @@
 import React from 'react'
 import {
   render,
-  getByText,
-  queryByText,
   getByTestId as originalGetByTestid
 } from 'react-testing-library'
 import cases from 'jest-in-case'
@@ -73,33 +71,6 @@ it('should render all the 9 positions in the field', () => {
   setTeamOnLocalStorage({ name: 'team', numberOfPlayers: 9 })
   const { getByTestId } = setup()
   positions.forEach(position => expect(getByTestId(position)).toBeInTheDocument())
-})
-
-it('should render the t-shirt number of all players in the bench', () => {
-  setupBench()
-  const { getByTestId } = setup()
-  const container = getByTestId('bench')
-  const expectedBenchPlayers = [1, 4, 6, 7, 8, 9, 11, 12, 13, 14]
-  const expectedFieldPlayers = [2, 3, 5, 10]
-  expectedBenchPlayers.forEach(number =>
-    expect(getByText(container, number.toString(), { exact: true })).toBeInTheDocument()
-  )
-  expectedFieldPlayers.forEach(number =>
-    expect(queryByText(container, number.toString(), { exact: true })).not.toBeInTheDocument()
-  )
-})
-
-it('should render the players in the bench in asc order', () => {
-  setupBench()
-  // using regex to match the exact text to assert the order
-  const sortedBenchPlayers = [
-    /^1$/, /^4$/, /^6$/, /^7$/, /^8$/, /^9$/, /^11$/, /^12$/, /^13$/, /^14$/,
-  ]
-  const { getByTestId } = setup()
-  const container = getByTestId('bench')
-  Object.values(container.children).forEach((benchPlayer, index) => {
-    expect(benchPlayer).toHaveTextContent(sortedBenchPlayers[index])
-  })
 })
 
 it('should render the players number in its correct position and `+` for empty positions', () => {
